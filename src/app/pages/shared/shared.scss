@@ -20,3 +20,10 @@
 .answer-render :where(li) {
   margin: 0.25rem 0;
 }
+
+@media (max-width: 768px) {
+  .answer-render {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}

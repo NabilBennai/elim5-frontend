@@ -41,3 +41,14 @@
   margin: 0.9rem 0;
   opacity: 0.95;
 }
+
+@media (max-width: 768px) {
+  .answer-render {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .answer-render :where(pre) {
+    padding: 0.65rem;
+  }
+}

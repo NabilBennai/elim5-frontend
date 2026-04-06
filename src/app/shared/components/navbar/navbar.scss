@@ -10,3 +10,10 @@
   align-items: center;
   vertical-align: middle;
 }
+
+@media (max-width: 768px) {
+  .lang-select {
+    min-width: 100%;
+    width: 100%;
+  }
+}

@@ -1,5 +1,7 @@
 main {
-  height: calc(100vh - 70px);
+  min-height: calc(100dvh - 70px);
+  height: auto;
+  overflow: auto;
 }
 
 .dev-ribbon {
@@ -18,4 +20,10 @@ main {
   padding: 6px 0;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  main {
+    min-height: calc(100dvh - 64px);
+  }
 }
