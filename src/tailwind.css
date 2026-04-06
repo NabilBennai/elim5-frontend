@@ -1,1 +1,7 @@
 @import 'tailwindcss';
+@import 'flyonui/variants.css';
+@plugin "@iconify/tailwind4";
+@plugin "flyonui" {
+  themes: dark;
+}
+@source "flyonui/dist/index.js";

@@ -29,7 +29,8 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/tailwind.css", "src/styles.scss"]
+            "styles": ["src/tailwind.css", "src/styles.scss"],
+            "scripts": ["node_modules/flyonui/dist/index.js"]
           },
           "configurations": {
             "production": {
