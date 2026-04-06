@@ -16,6 +16,13 @@ interface Explanation {
   level: ExplanationLevel;
   answer: string;
   shareId?: string | null;
+  sources: Array<{
+    id: string;
+    citationIndex: number;
+    sourceUrl: string;
+    sourceType: string;
+    snippet: string;
+  }>;
   createdAt: string;
 }
 
@@ -32,6 +39,7 @@ export class Explain {
   @ViewChild('answerContent') private answerContent?: ElementRef<HTMLElement>;
 
   topic = '';
+  sourceUrl = '';
   loading = signal(false);
   selectedLevel = signal<ExplanationLevel>('ELI5');
   currentAnswer = signal<Explanation | null>(null);
@@ -61,6 +69,7 @@ export class Explain {
   submit(topicOverride?: string, levelOverride?: ExplanationLevel) {
     const value = (topicOverride ?? this.topic).trim();
     const level = levelOverride ?? this.selectedLevel();
+    const sourceUrl = this.sourceUrl.trim();
     if (!value || this.loading()) return;
 
     this.loading.set(true);
@@ -68,19 +77,25 @@ export class Explain {
     this.shareStatus.set('');
     this.currentAnswer.set(null);
 
-    this.http.post<Explanation>(buildApiUrl('/explain'), { topic: value, level }).subscribe({
-      next: (res) => {
-        this.currentAnswer.set(res);
-        this.selectedLevel.set(res.level);
-        this.history.update((h) => [res, ...h]);
-        this.topic = value;
-        this.loading.set(false);
-      },
-      error: (err) => {
-        this.error.set(err.error?.message || 'Something went wrong');
-        this.loading.set(false);
-      },
-    });
+    this.http
+      .post<Explanation>(buildApiUrl('/explain'), {
+        topic: value,
+        level,
+        sourceUrl: sourceUrl || undefined,
+      })
+      .subscribe({
+        next: (res) => {
+          this.currentAnswer.set(res);
+          this.selectedLevel.set(res.level);
+          this.history.update((h) => [res, ...h]);
+          this.topic = value;
+          this.loading.set(false);
+        },
+        error: (err) => {
+          this.error.set(err.error?.message || 'Something went wrong');
+          this.loading.set(false);
+        },
+      });
   }
 
   loadHistory() {
@@ -100,6 +115,7 @@ export class Explain {
     this.currentAnswer.set(item);
     this.selectedLevel.set(item.level);
     this.topic = item.topic;
+    this.sourceUrl = item.sources[0]?.sourceUrl ?? '';
     this.shareStatus.set('');
   }
 

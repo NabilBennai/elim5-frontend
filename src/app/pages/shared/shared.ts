@@ -21,6 +21,13 @@ interface SharedExplanation {
   topic: string;
   level: string;
   answer: string;
+  sources: Array<{
+    id: string;
+    citationIndex: number;
+    sourceUrl: string;
+    sourceType: string;
+    snippet: string;
+  }>;
   createdAt: string;
   comments: PublicComment[];
 }

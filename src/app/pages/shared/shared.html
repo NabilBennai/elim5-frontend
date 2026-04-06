@@ -23,6 +23,30 @@
           <h1 class="text-xl font-semibold">{{ explanation()!.topic }}</h1>
         </div>
         <div #answerContent class="answer-render" [innerHTML]="renderedAnswer()"></div>
+        @if (explanation()!.sources.length) {
+          <div class="mt-5">
+            <h2 class="font-semibold mb-2">Sources</h2>
+            <div class="flex flex-col gap-2">
+              @for (src of explanation()!.sources; track src.id) {
+                <div class="rounded-lg border border-base-300 bg-base-100 p-3">
+                  <div class="flex items-center justify-between gap-2 mb-1">
+                    <span class="badge badge-outline"
+                      >[{{ src.citationIndex }}] {{ src.sourceType }}</span
+                    >
+                    <a
+                      class="link link-primary text-xs truncate"
+                      [href]="src.sourceUrl"
+                      target="_blank"
+                    >
+                      {{ src.sourceUrl }}
+                    </a>
+                  </div>
+                  <p class="text-xs text-base-content/70 whitespace-pre-line">{{ src.snippet }}</p>
+                </div>
+              }
+            </div>
+          </div>
+        }
         <div class="text-xs text-base-content/40 mt-4">
           {{ explanation()!.createdAt | date: 'medium' }}
         </div>
