@@ -40,6 +40,10 @@
       <span class="icon-[tabler--home] size-5"></span>
       <span class="sidebar-label">{{ 'nav.home' | t }}</span>
     </a>
+    <a routerLink="/pricing" (click)="closeSidebar()" [attr.title]="'nav.pricing' | t">
+      <span class="icon-[tabler--credit-card] size-5"></span>
+      <span class="sidebar-label">{{ 'nav.pricing' | t }}</span>
+    </a>
     @if (!auth.isLoggedIn()) {
       <a routerLink="/login" (click)="closeSidebar()" [attr.title]="'nav.login' | t">
         <span class="icon-[tabler--login] size-5"></span>
@@ -70,6 +74,38 @@
           <p class="history-empty">{{ 'explain.history.empty' | t }}</p>
         }
       </div>
+    </div>
+  }
+
+  @if (auth.isLoggedIn() && !collapsed()) {
+    <div class="sidebar-credits">
+      <div class="credits-head">
+        <p class="history-title">{{ 'nav.credits.title' | t }}</p>
+        @if (credits() && !credits()!.allowed) {
+          <span class="badge badge-error badge-sm">{{ 'nav.credits.exhausted' | t }}</span>
+        }
+      </div>
+
+      @if (creditsLoading() && !credits()) {
+        <p class="history-empty">{{ 'nav.credits.loading' | t }}</p>
+      } @else if (credits()) {
+        @for (window of credits()!.windows; track window.key) {
+          <div class="credit-item" [class.credit-item-exhausted]="window.remaining <= 0">
+            <div class="credit-head">
+              <span>{{ 'nav.credits.' + window.key | t }}</span>
+              <span>{{ window.remaining }}/{{ window.limit }}</span>
+            </div>
+            <progress
+              [class]="creditClass(window)"
+              [value]="creditProgress(window)"
+              max="100"
+            ></progress>
+            <p class="credit-reset">
+              {{ 'nav.credits.reset' | t }} {{ formatReset(window.resetAt) }}
+            </p>
+          </div>
+        }
+      }
     </div>
   }
 

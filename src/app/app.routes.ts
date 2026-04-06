@@ -16,6 +16,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/shared/shared').then((m) => m.Shared),
   },
   {
+    path: 'pricing',
+    loadComponent: () => import('./pages/pricing/pricing').then((m) => m.Pricing),
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then((m) => m.Login),
     canActivate: [guestGuard],

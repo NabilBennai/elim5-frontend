@@ -1,0 +1,99 @@
+<div class="pricing-page p-4 md:p-8">
+  <section class="pricing-hero">
+    <h1>{{ 'pricing.title' | t }}</h1>
+    <p>{{ 'pricing.subtitle' | t }}</p>
+    <div class="billing-toggle">
+      <button
+        type="button"
+        class="btn btn-sm"
+        [class.btn-primary]="billingCycle() === 'monthly'"
+        [class.btn-ghost]="billingCycle() !== 'monthly'"
+        (click)="billingCycle.set('monthly')"
+      >
+        {{ 'pricing.billing.monthly' | t }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm"
+        [class.btn-primary]="billingCycle() === 'yearly'"
+        [class.btn-ghost]="billingCycle() !== 'yearly'"
+        (click)="billingCycle.set('yearly')"
+      >
+        {{ 'pricing.billing.yearly' | t }}
+      </button>
+    </div>
+    @if (!paymentEnabled()) {
+      <span class="badge badge-warning">{{ 'pricing.noPayment' | t }}</span>
+    }
+    @if (checkoutMessage()) {
+      <div class="checkout-alert">{{ checkoutMessage() }}</div>
+    }
+  </section>
+
+  @if (loading()) {
+    <div class="pricing-loading">
+      <span class="loading loading-spinner loading-lg"></span>
+    </div>
+  } @else {
+    <section class="pricing-grid">
+      @for (plan of plans(); track plan.id) {
+        <article class="plan-card" [class.recommended]="plan.recommended">
+          <div class="plan-head">
+            <h2>{{ plan.name }}</h2>
+            @if (plan.recommended) {
+              <span class="badge badge-primary">{{ 'pricing.recommended' | t }}</span>
+            }
+          </div>
+          <p class="plan-tagline">{{ plan.tagline }}</p>
+          <p class="plan-price">{{ formatPrice(plan) }}</p>
+          @if (billingCycle() === 'yearly' && yearlySavingsPercent(plan) > 0) {
+            <p class="plan-savings">
+              {{ 'pricing.saveUpTo' | t }} {{ yearlySavingsPercent(plan) }}%
+            </p>
+          }
+
+          <div class="plan-limits">
+            <div>
+              <span>5h</span><strong>{{ plan.limits.fiveHours }}</strong>
+            </div>
+            <div>
+              <span>24h</span><strong>{{ plan.limits.daily }}</strong>
+            </div>
+            <div>
+              <span>7d</span><strong>{{ plan.limits.weekly }}</strong>
+            </div>
+          </div>
+
+          <ul class="plan-features">
+            @for (feature of plan.features; track feature) {
+              <li>
+                <span class="icon-[tabler--check] size-4 text-success"></span>
+                <span>{{ feature }}</span>
+              </li>
+            }
+          </ul>
+
+          @if (plan.id === 'free') {
+            <a class="btn btn-outline w-full" routerLink="/register">{{
+              'pricing.cta.free' | t
+            }}</a>
+          } @else if (!auth.isLoggedIn()) {
+            <a class="btn btn-primary w-full" routerLink="/login">{{ 'pricing.cta.login' | t }}</a>
+          } @else {
+            <button
+              class="btn btn-primary w-full"
+              type="button"
+              [disabled]="checkoutLoadingPlan() === plan.id"
+              (click)="checkout(plan)"
+            >
+              @if (checkoutLoadingPlan() === plan.id) {
+                <span class="loading loading-spinner loading-sm"></span>
+              }
+              {{ 'pricing.cta.choose' | t }}
+            </button>
+          }
+        </article>
+      }
+    </section>
+  }
+</div>

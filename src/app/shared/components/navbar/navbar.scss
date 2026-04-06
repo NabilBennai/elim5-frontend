@@ -102,6 +102,17 @@
   padding: 0.35rem 0.8rem 0.7rem;
 }
 
+.sidebar-credits {
+  padding: 0.1rem 0.8rem 0.75rem;
+}
+
+.credits-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
 .history-title {
   margin: 0 0 0.45rem;
   font-size: 0.72rem;
@@ -158,6 +169,33 @@
   color: hsl(var(--bc) / 0.5);
 }
 
+.credit-item {
+  border: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+  border-radius: 0.65rem;
+  padding: 0.4rem 0.5rem;
+  margin-bottom: 0.35rem;
+  background: color-mix(in oklab, hsl(var(--b2)) 86%, black 14%);
+}
+
+.credit-item-exhausted {
+  border-color: hsl(var(--er) / 0.35);
+}
+
+.credit-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: hsl(var(--bc) / 0.82);
+  margin-bottom: 0.3rem;
+}
+
+.credit-reset {
+  margin: 0.3rem 0 0;
+  font-size: 0.65rem;
+  color: hsl(var(--bc) / 0.54);
+}
+
 .lang-select {
   width: 100%;
 }
@@ -199,6 +237,7 @@
   .app-sidebar.collapsed .brand-full,
   .app-sidebar.collapsed .sidebar-label,
   .app-sidebar.collapsed .sidebar-history,
+  .app-sidebar.collapsed .sidebar-credits,
   .app-sidebar.collapsed .sidebar-footer {
     display: none;
   }

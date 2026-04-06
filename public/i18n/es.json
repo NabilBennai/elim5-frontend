@@ -1,5 +1,6 @@
 {
   "nav.home": "Inicio",
+  "nav.pricing": "Precios",
   "nav.login": "Iniciar sesion",
   "nav.register": "Registro",
   "nav.logout": "Cerrar sesion",
@@ -7,6 +8,13 @@
   "nav.lang.en": "Ingles",
   "nav.lang.fr": "Frances",
   "nav.lang.es": "Espanol",
+  "nav.credits.title": "Creditos IA",
+  "nav.credits.loading": "Cargando creditos...",
+  "nav.credits.fiveHours": "5 horas",
+  "nav.credits.daily": "Diario",
+  "nav.credits.weekly": "Semanal",
+  "nav.credits.reset": "Se recarga en:",
+  "nav.credits.exhausted": "Agotado",
   "home.hero.title1": "Temas complejos,",
   "home.hero.title2": "explicados de forma simple.",
   "home.hero.subtitle": "Pega cualquier tema, articulo o concepto y obten una explicacion clara y sin jerga.",
@@ -81,5 +89,15 @@
   "shared.comments.placeholder": "Deja un comentario...",
   "shared.comments.post": "Publicar comentario",
   "shared.comments.empty": "Aun no hay comentarios.",
-  "shared.comments.failed": "No se pudo publicar el comentario"
+  "shared.comments.failed": "No se pudo publicar el comentario",
+  "pricing.title": "Precios simples",
+  "pricing.subtitle": "Planes transparentes con limites claras de creditos IA.",
+  "pricing.noPayment": "El pago aun no esta habilitado",
+  "pricing.recommended": "Mas popular",
+  "pricing.cta.free": "Empezar gratis",
+  "pricing.cta.login": "Inicia sesion para elegir",
+  "pricing.cta.choose": "Elegir plan",
+  "pricing.billing.monthly": "Mensual",
+  "pricing.billing.yearly": "Anual",
+  "pricing.saveUpTo": "Ahorra hasta"
 }

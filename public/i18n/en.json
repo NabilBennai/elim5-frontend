@@ -1,5 +1,6 @@
 {
   "nav.home": "Home",
+  "nav.pricing": "Pricing",
   "nav.login": "Login",
   "nav.register": "Register",
   "nav.logout": "Logout",
@@ -7,6 +8,13 @@
   "nav.lang.en": "English",
   "nav.lang.fr": "French",
   "nav.lang.es": "Spanish",
+  "nav.credits.title": "AI Credits",
+  "nav.credits.loading": "Loading credits...",
+  "nav.credits.fiveHours": "5 Hours",
+  "nav.credits.daily": "Daily",
+  "nav.credits.weekly": "Weekly",
+  "nav.credits.reset": "Resets in:",
+  "nav.credits.exhausted": "Exhausted",
   "home.hero.title1": "Complex topics,",
   "home.hero.title2": "explained simply.",
   "home.hero.subtitle": "Paste any topic, article, or concept and get a clear, jargon-free explanation that anyone can understand.",
@@ -81,5 +89,15 @@
   "shared.comments.placeholder": "Leave a comment...",
   "shared.comments.post": "Post comment",
   "shared.comments.empty": "No comments yet.",
-  "shared.comments.failed": "Failed to post comment"
+  "shared.comments.failed": "Failed to post comment",
+  "pricing.title": "Simple Pricing",
+  "pricing.subtitle": "Transparent plans with clear AI credit limits.",
+  "pricing.noPayment": "Payments are not enabled yet",
+  "pricing.recommended": "Most popular",
+  "pricing.cta.free": "Start free",
+  "pricing.cta.login": "Login to choose",
+  "pricing.cta.choose": "Choose plan",
+  "pricing.billing.monthly": "Monthly",
+  "pricing.billing.yearly": "Yearly",
+  "pricing.saveUpTo": "Save up to"
 }

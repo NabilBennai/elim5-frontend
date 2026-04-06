@@ -1,0 +1,140 @@
+.pricing-page {
+  min-height: 100%;
+  color: hsl(var(--bc));
+}
+
+.pricing-hero {
+  max-width: 48rem;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
+
+.pricing-hero h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 800;
+}
+
+.pricing-hero p {
+  margin: 0.55rem 0 0.85rem;
+  color: hsl(var(--bc) / 0.72);
+}
+
+.billing-toggle {
+  display: inline-flex;
+  gap: 0.4rem;
+  margin-bottom: 0.7rem;
+  padding: 0.25rem;
+  border: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+  border-radius: 0.75rem;
+}
+
+.checkout-alert {
+  max-width: 40rem;
+  margin: 0.7rem auto 0;
+  font-size: 0.85rem;
+  color: hsl(var(--er));
+}
+
+.pricing-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18rem;
+}
+
+.pricing-grid {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.plan-card {
+  border: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+  border-radius: 1rem;
+  background: color-mix(in oklab, hsl(var(--b1)) 93%, black 7%);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.plan-card.recommended {
+  border-color: hsl(var(--p) / 0.5);
+  box-shadow: 0 0 0 1px hsl(var(--p) / 0.2);
+}
+
+.plan-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.plan-head h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.plan-tagline {
+  margin: 0.45rem 0 0.55rem;
+  font-size: 0.85rem;
+  color: hsl(var(--bc) / 0.68);
+}
+
+.plan-price {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+}
+
+.plan-savings {
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+  color: hsl(var(--su));
+}
+
+.plan-limits {
+  margin: 0.75rem 0 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+}
+
+.plan-limits > div {
+  border: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+  border-radius: 0.65rem;
+  padding: 0.4rem 0.35rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.plan-limits span {
+  font-size: 0.67rem;
+  color: hsl(var(--bc) / 0.6);
+}
+
+.plan-limits strong {
+  font-size: 0.92rem;
+}
+
+.plan-features {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  font-size: 0.84rem;
+}
