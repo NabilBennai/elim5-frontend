@@ -1,118 +1,98 @@
 <div class="flex h-full flex-col items-center overflow-y-auto">
-  <!-- Hero -->
   <section class="flex flex-col items-center justify-center gap-6 text-center px-4 py-20 w-full">
     <span class="text-6xl">🧒</span>
     <h1 class="text-5xl font-bold leading-tight max-w-2xl">
-      Complex topics,<br /><span class="text-primary">explained simply.</span>
+      {{ 'home.hero.title1' | t }}<br /><span class="text-primary">{{
+        'home.hero.title2' | t
+      }}</span>
     </h1>
     <p class="text-lg text-base-content/70 max-w-lg">
-      Paste any topic, article, or concept and get a clear, jargon-free explanation that anyone can
-      understand — like you're five.
+      {{ 'home.hero.subtitle' | t }}
     </p>
 
     @if (auth.isLoggedIn()) {
       <a routerLink="/explain" class="btn btn-primary btn-lg gap-2">
         <span class="icon-[tabler--sparkles] size-5"></span>
-        Start Explaining
+        {{ 'home.hero.cta.explain' | t }}
       </a>
     } @else {
       <div class="flex gap-3">
-        <a routerLink="/register" class="btn btn-primary btn-lg">Get Started Free</a>
-        <a routerLink="/login" class="btn btn-outline btn-lg">Login</a>
+        <a routerLink="/register" class="btn btn-primary btn-lg">{{ 'home.hero.cta.free' | t }}</a>
+        <a routerLink="/login" class="btn btn-outline btn-lg">{{ 'nav.login' | t }}</a>
       </div>
     }
   </section>
 
-  <!-- How it works -->
   <section class="w-full max-w-4xl px-4 py-16">
-    <h2 class="text-3xl font-bold text-center mb-10">How it works</h2>
+    <h2 class="text-3xl font-bold text-center mb-10">{{ 'home.how.title' | t }}</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="card bg-base-200 shadow-md">
         <div class="card-body items-center text-center">
           <span class="text-4xl mb-2">📝</span>
-          <h3 class="card-title">1. Paste your topic</h3>
-          <p class="text-base-content/60">
-            Enter anything — a Wikipedia article, a homework question, or a technical concept.
-          </p>
+          <h3 class="card-title">{{ 'home.how.step1.title' | t }}</h3>
+          <p class="text-base-content/60">{{ 'home.how.step1.body' | t }}</p>
         </div>
       </div>
       <div class="card bg-base-200 shadow-md">
         <div class="card-body items-center text-center">
           <span class="text-4xl mb-2">🤖</span>
-          <h3 class="card-title">2. AI simplifies it</h3>
-          <p class="text-base-content/60">
-            Our AI breaks it down into plain, everyday language — no jargon, no complexity.
-          </p>
+          <h3 class="card-title">{{ 'home.how.step2.title' | t }}</h3>
+          <p class="text-base-content/60">{{ 'home.how.step2.body' | t }}</p>
         </div>
       </div>
       <div class="card bg-base-200 shadow-md">
         <div class="card-body items-center text-center">
           <span class="text-4xl mb-2">💡</span>
-          <h3 class="card-title">3. Understand instantly</h3>
-          <p class="text-base-content/60">
-            Read the simple explanation and finally understand what everyone's been talking about.
-          </p>
+          <h3 class="card-title">{{ 'home.how.step3.title' | t }}</h3>
+          <p class="text-base-content/60">{{ 'home.how.step3.body' | t }}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Use cases -->
   <section class="w-full max-w-4xl px-4 py-16">
-    <h2 class="text-3xl font-bold text-center mb-10">Perfect for</h2>
+    <h2 class="text-3xl font-bold text-center mb-10">{{ 'home.usecases.title' | t }}</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="flex items-start gap-4 p-4 rounded-lg bg-base-200">
         <span class="icon-[tabler--school] size-8 text-primary shrink-0 mt-1"></span>
         <div>
-          <h3 class="font-semibold text-lg">Students</h3>
-          <p class="text-base-content/60">
-            Struggling with a textbook? Get a breakdown that actually makes sense before your exam.
-          </p>
+          <h3 class="font-semibold text-lg">{{ 'home.usecases.students.title' | t }}</h3>
+          <p class="text-base-content/60">{{ 'home.usecases.students.body' | t }}</p>
         </div>
       </div>
       <div class="flex items-start gap-4 p-4 rounded-lg bg-base-200">
         <span class="icon-[tabler--briefcase] size-8 text-primary shrink-0 mt-1"></span>
         <div>
-          <h3 class="font-semibold text-lg">Professionals</h3>
-          <p class="text-base-content/60">
-            Need to quickly grasp a new domain? Get up to speed without reading hours of
-            documentation.
-          </p>
+          <h3 class="font-semibold text-lg">{{ 'home.usecases.professionals.title' | t }}</h3>
+          <p class="text-base-content/60">{{ 'home.usecases.professionals.body' | t }}</p>
         </div>
       </div>
       <div class="flex items-start gap-4 p-4 rounded-lg bg-base-200">
         <span class="icon-[tabler--heart] size-8 text-primary shrink-0 mt-1"></span>
         <div>
-          <h3 class="font-semibold text-lg">Curious minds</h3>
-          <p class="text-base-content/60">
-            Quantum physics? Blockchain? Economics? Finally understand the things you've always
-            wondered about.
-          </p>
+          <h3 class="font-semibold text-lg">{{ 'home.usecases.curious.title' | t }}</h3>
+          <p class="text-base-content/60">{{ 'home.usecases.curious.body' | t }}</p>
         </div>
       </div>
       <div class="flex items-start gap-4 p-4 rounded-lg bg-base-200">
         <span class="icon-[tabler--users] size-8 text-primary shrink-0 mt-1"></span>
         <div>
-          <h3 class="font-semibold text-lg">Parents & teachers</h3>
-          <p class="text-base-content/60">
-            Find the right words to explain difficult concepts to kids or students in a way they'll
-            remember.
-          </p>
+          <h3 class="font-semibold text-lg">{{ 'home.usecases.parents.title' | t }}</h3>
+          <p class="text-base-content/60">{{ 'home.usecases.parents.body' | t }}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="w-full max-w-4xl px-4 py-16 text-center">
     @if (!auth.isLoggedIn()) {
       <div class="card bg-primary text-primary-content shadow-xl">
         <div class="card-body items-center py-12">
-          <h2 class="card-title text-3xl">Ready to understand anything?</h2>
-          <p class="text-primary-content/80 max-w-md">
-            Join for free and start getting simple explanations in seconds.
-          </p>
-          <a routerLink="/register" class="btn btn-neutral btn-lg mt-4">Create your account</a>
+          <h2 class="card-title text-3xl">{{ 'home.cta.title' | t }}</h2>
+          <p class="text-primary-content/80 max-w-md">{{ 'home.cta.body' | t }}</p>
+          <a routerLink="/register" class="btn btn-neutral btn-lg mt-4">{{
+            'home.cta.button' | t
+          }}</a>
         </div>
       </div>
     }

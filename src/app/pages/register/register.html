@@ -1,7 +1,7 @@
 <div class="flex items-center justify-center">
   <div class="card w-full max-w-md bg-base-200 shadow-xl">
     <div class="card-body">
-      <h2 class="card-title text-2xl justify-center mb-4">Register</h2>
+      <h2 class="card-title text-2xl justify-center mb-4">{{ 'register.title' | t }}</h2>
 
       @if (error) {
         <div class="alert alert-error text-sm">{{ error }}</div>
@@ -9,41 +9,41 @@
 
       <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-4">
         <div class="form-group">
-          <label class="label label-text" for="email">Email</label>
+          <label class="label label-text" for="email">{{ 'register.email' | t }}</label>
           <input
             id="email"
             type="email"
             formControlName="email"
             class="input input-bordered w-full"
-            placeholder="you@example.com"
+            [placeholder]="'register.placeholder.email' | t"
           />
           @if (form.controls.email.touched && form.controls.email.errors) {
-            <span class="label-text-alt text-error">Valid email is required</span>
+            <span class="label-text-alt text-error">{{ 'register.email.required' | t }}</span>
           }
         </div>
 
         <div class="form-group">
-          <label class="label label-text" for="password">Password</label>
+          <label class="label label-text" for="password">{{ 'register.password' | t }}</label>
           <input
             id="password"
             type="password"
             formControlName="password"
             class="input input-bordered w-full"
-            placeholder="Min. 8 characters"
+            [placeholder]="'register.placeholder.password' | t"
           />
           @if (form.controls.password.touched && form.controls.password.errors) {
-            <span class="label-text-alt text-error">Password must be at least 8 characters</span>
+            <span class="label-text-alt text-error">{{ 'register.password.required' | t }}</span>
           }
         </div>
 
         <button type="submit" class="btn btn-primary w-full" [disabled]="form.invalid">
-          Register
+          {{ 'register.submit' | t }}
         </button>
       </form>
 
       <p class="text-center text-sm mt-4">
-        Already have an account?
-        <a routerLink="/login" class="link link-primary">Login</a>
+        {{ 'register.hasAccount' | t }}
+        <a routerLink="/login" class="link link-primary">{{ 'register.login' | t }}</a>
       </p>
     </div>
   </div>

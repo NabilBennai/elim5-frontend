@@ -11,7 +11,7 @@
             class="collapse-toggle btn btn-outline btn-secondary btn-sm btn-square"
             data-collapse="#default-navbar-collapse"
             aria-controls="default-navbar-collapse"
-            aria-label="Toggle navigation"
+            aria-label="Language"
           >
             <span class="icon-[tabler--menu-2] collapse-open:hidden size-4"></span>
             <span class="icon-[tabler--x] collapse-open:block hidden size-4"></span>
@@ -24,17 +24,37 @@
       class="md:navbar-end collapse hidden grow basis-full overflow-hidden transition-[height] duration-300 max-md:w-full"
     >
       <ul class="menu md:menu-horizontal items-center gap-2 p-0 text-base max-md:mt-2">
-        <li><a routerLink="/">Home</a></li>
+        <li>
+          <a routerLink="/">{{ 'nav.home' | t }}</a>
+        </li>
+        <li>
+          <select
+            class="select select-bordered select-sm lang-select"
+            [value]="i18n.language()"
+            (change)="changeLanguage($any($event.target).value)"
+            [attr.aria-label]="'nav.lang' | t"
+          >
+            @for (lang of languages; track lang.code) {
+              <option [value]="lang.code">{{ lang.flag }} {{ lang.labelKey | t }}</option>
+            }
+          </select>
+        </li>
         @if (auth.isLoggedIn()) {
           <li>
             <span class="text-base-content/60">{{ auth.user()?.email }}</span>
           </li>
           <li>
-            <button (click)="logout()" class="btn btn-outline btn-error btn-sm">Logout</button>
+            <button (click)="logout()" class="btn btn-outline btn-error btn-sm">
+              {{ 'nav.logout' | t }}
+            </button>
           </li>
         } @else {
-          <li><a routerLink="/login">Login</a></li>
-          <li><a routerLink="/register">Register</a></li>
+          <li>
+            <a routerLink="/login">{{ 'nav.login' | t }}</a>
+          </li>
+          <li>
+            <a routerLink="/register">{{ 'nav.register' | t }}</a>
+          </li>
         }
       </ul>
     </div>

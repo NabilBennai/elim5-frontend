@@ -7,6 +7,8 @@ import { buildApiUrl } from '../../core/api/api-url';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import renderMathInElement from 'katex/contrib/auto-render';
+import { I18nService } from '../../core/i18n/i18n.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
 type ExplanationLevel = 'ELI5' | 'BEGINNER' | 'INTERMEDIATE' | 'EXPERT';
 
@@ -28,13 +30,14 @@ interface Explanation {
 
 @Component({
   selector: 'app-explain',
-  imports: [FormsModule, DatePipe],
+  imports: [FormsModule, DatePipe, TranslatePipe],
   templateUrl: './explain.html',
   styleUrl: './explain.scss',
 })
 export class Explain {
   private http = inject(HttpClient);
   private sanitizer = inject(DomSanitizer);
+  protected i18n = inject(I18nService);
   protected readonly levels: ExplanationLevel[] = ['ELI5', 'BEGINNER', 'INTERMEDIATE', 'EXPERT'];
   @ViewChild('answerContent') private answerContent?: ElementRef<HTMLElement>;
 
@@ -92,7 +95,7 @@ export class Explain {
           this.loading.set(false);
         },
         error: (err) => {
-          this.error.set(err.error?.message || 'Something went wrong');
+          this.error.set(err.error?.message || this.i18n.translate('explain.error.generic'));
           this.loading.set(false);
         },
       });
@@ -120,7 +123,7 @@ export class Explain {
   }
 
   levelLabel(level: ExplanationLevel) {
-    return level.charAt(0) + level.slice(1).toLowerCase();
+    return this.i18n.translate(`level.${level}`);
   }
 
   shareCurrent() {
@@ -140,15 +143,15 @@ export class Explain {
         const publicUrl = `${window.location.origin}/shared/${shareId}`;
         try {
           await navigator.clipboard.writeText(publicUrl);
-          this.shareStatus.set('Public link copied');
+          this.shareStatus.set(this.i18n.translate('explain.share.copied'));
         } catch {
-          this.shareStatus.set(`Public link: ${publicUrl}`);
+          this.shareStatus.set(`${this.i18n.translate('explain.share.failedPrefix')} ${publicUrl}`);
         }
 
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set(err.error?.message || 'Failed to create share link');
+        this.error.set(err.error?.message || this.i18n.translate('explain.share.failed'));
         this.loading.set(false);
       },
     });

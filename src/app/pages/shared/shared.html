@@ -2,9 +2,9 @@
   <div class="flex items-center justify-between">
     <a routerLink="/" class="btn btn-ghost btn-sm">
       <span class="icon-[tabler--arrow-left] size-4"></span>
-      Home
+      {{ 'shared.back' | t }}
     </a>
-    <span class="badge badge-outline">Public explanation</span>
+    <span class="badge badge-outline">{{ 'shared.badge' | t }}</span>
   </div>
 
   @if (loading()) {
@@ -25,7 +25,7 @@
         <div #answerContent class="answer-render" [innerHTML]="renderedAnswer()"></div>
         @if (explanation()!.sources.length) {
           <div class="mt-5">
-            <h2 class="font-semibold mb-2">Sources</h2>
+            <h2 class="font-semibold mb-2">{{ 'shared.sources' | t }}</h2>
             <div class="flex flex-col gap-2">
               @for (src of explanation()!.sources; track src.id) {
                 <div class="rounded-lg border border-base-300 bg-base-100 p-3">
@@ -55,18 +55,18 @@
 
     <div class="card bg-base-200 shadow-md">
       <div class="card-body">
-        <h2 class="card-title text-lg">Comments</h2>
+        <h2 class="card-title text-lg">{{ 'shared.comments' | t }}</h2>
         <div class="grid gap-2 md:grid-cols-4">
           <input
             class="input input-bordered md:col-span-1"
             [(ngModel)]="authorName"
-            placeholder="Name (optional)"
+            [placeholder]="'shared.comments.name' | t"
             [disabled]="posting()"
           />
           <textarea
             class="textarea textarea-bordered md:col-span-3"
             [(ngModel)]="comment"
-            placeholder="Leave a comment..."
+            [placeholder]="'shared.comments.placeholder' | t"
             [disabled]="posting()"
           ></textarea>
         </div>
@@ -79,7 +79,7 @@
             @if (posting()) {
               <span class="loading loading-spinner loading-xs"></span>
             }
-            Post comment
+            {{ 'shared.comments.post' | t }}
           </button>
         </div>
         <div class="divider my-1"></div>
@@ -95,7 +95,7 @@
               <p class="text-sm whitespace-pre-line">{{ item.content }}</p>
             </div>
           } @empty {
-            <p class="text-sm text-base-content/50">No comments yet.</p>
+            <p class="text-sm text-base-content/50">{{ 'shared.comments.empty' | t }}</p>
           }
         </div>
       </div>

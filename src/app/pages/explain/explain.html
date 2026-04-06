@@ -6,11 +6,11 @@
       <div class="card-body">
         <h2 class="card-title gap-2">
           <span class="icon-[tabler--sparkles] size-5 text-primary"></span>
-          What do you want explained?
+          {{ 'explain.title' | t }}
         </h2>
         <textarea
           class="textarea textarea-bordered w-full min-h-28 text-base"
-          placeholder="Paste a topic, concept, or paragraph here..."
+          [placeholder]="'explain.placeholder.topic' | t"
           [(ngModel)]="topic"
           [disabled]="loading()"
           (keydown.meta.Enter)="submit()"
@@ -18,7 +18,7 @@
         ></textarea>
         <input
           class="input input-bordered w-full"
-          placeholder="Optional source URL or PDF URL for grounded explanation..."
+          [placeholder]="'explain.placeholder.source' | t"
           [(ngModel)]="sourceUrl"
           [disabled]="loading()"
         />
@@ -47,10 +47,10 @@
           >
             @if (loading()) {
               <span class="loading loading-spinner loading-sm"></span>
-              Explaining...
+              {{ 'explain.button.loading' | t }}
             } @else {
               <span class="icon-[tabler--send] size-4"></span>
-              Explain it!
+              {{ 'explain.button.submit' | t }}
             }
           </button>
         </div>
@@ -82,7 +82,7 @@
           <div class="flex items-center gap-2 mb-3">
             <button type="button" class="btn btn-sm btn-outline" (click)="shareCurrent()">
               <span class="icon-[tabler--share] size-4"></span>
-              Share public page
+              {{ 'explain.button.share' | t }}
             </button>
             @if (shareStatus()) {
               <span class="text-xs text-success">{{ shareStatus() }}</span>
@@ -91,7 +91,7 @@
           <div #answerContent class="answer-render" [innerHTML]="renderedAnswer()"></div>
           @if (currentAnswer()!.sources.length) {
             <div class="mt-5">
-              <h4 class="font-semibold mb-2">Sources</h4>
+              <h4 class="font-semibold mb-2">{{ 'explain.sources' | t }}</h4>
               <div class="flex flex-col gap-2">
                 @for (src of currentAnswer()!.sources; track src.id) {
                   <div class="rounded-lg border border-base-300 bg-base-100 p-3">
@@ -124,7 +124,7 @@
       <div class="flex flex-1 items-center justify-center text-base-content/30">
         <div class="text-center">
           <span class="text-6xl block mb-4">🧒</span>
-          <p class="text-lg">Enter a topic above and hit "Explain it!"</p>
+          <p class="text-lg">{{ 'explain.empty' | t }}</p>
         </div>
       </div>
     }
@@ -134,7 +134,7 @@
   <div class="lg:w-80 shrink-0 flex flex-col gap-2 overflow-hidden">
     <h3 class="font-semibold text-lg flex items-center gap-2 px-1">
       <span class="icon-[tabler--history] size-5"></span>
-      History
+      {{ 'explain.history' | t }}
     </h3>
     <div class="flex flex-col gap-2 overflow-y-auto flex-1 pr-1">
       @for (item of history(); track item.id) {
@@ -153,7 +153,9 @@
           </div>
         </button>
       } @empty {
-        <p class="text-sm text-base-content/40 text-center py-8">No explanations yet</p>
+        <p class="text-sm text-base-content/40 text-center py-8">
+          {{ 'explain.history.empty' | t }}
+        </p>
       }
     </div>
   </div>

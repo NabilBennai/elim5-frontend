@@ -8,6 +8,8 @@ import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import renderMathInElement from 'katex/contrib/auto-render';
 import { buildApiUrl } from '../../core/api/api-url';
+import { I18nService } from '../../core/i18n/i18n.service';
+import { TranslatePipe } from '../../core/i18n/translate.pipe';
 
 interface PublicComment {
   id: string;
@@ -34,7 +36,7 @@ interface SharedExplanation {
 
 @Component({
   selector: 'app-shared',
-  imports: [DatePipe, FormsModule, RouterLink],
+  imports: [DatePipe, FormsModule, RouterLink, TranslatePipe],
   templateUrl: './shared.html',
   styleUrl: './shared.scss',
 })
@@ -42,6 +44,7 @@ export class Shared {
   private http = inject(HttpClient);
   private route = inject(ActivatedRoute);
   private sanitizer = inject(DomSanitizer);
+  protected i18n = inject(I18nService);
   @ViewChild('answerContent') private answerContent?: ElementRef<HTMLElement>;
 
   loading = signal(true);
@@ -70,7 +73,7 @@ export class Shared {
   load() {
     const shareId = this.route.snapshot.paramMap.get('shareId');
     if (!shareId) {
-      this.error.set('Invalid share link');
+      this.error.set(this.i18n.translate('shared.error.invalid'));
       this.loading.set(false);
       return;
     }
@@ -84,7 +87,7 @@ export class Shared {
         this.loading.set(false);
       },
       error: () => {
-        this.error.set('This shared explanation does not exist or is no longer available');
+        this.error.set(this.i18n.translate('shared.error.missing'));
         this.loading.set(false);
       },
     });
@@ -112,7 +115,7 @@ export class Shared {
           this.posting.set(false);
         },
         error: (err) => {
-          this.error.set(err.error?.message || 'Failed to post comment');
+          this.error.set(err.error?.message || this.i18n.translate('shared.comments.failed'));
           this.posting.set(false);
         },
       });
