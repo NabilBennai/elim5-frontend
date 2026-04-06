@@ -73,6 +73,15 @@
               </button>
             }
           </div>
+          <div class="flex items-center gap-2 mb-3">
+            <button type="button" class="btn btn-sm btn-outline" (click)="shareCurrent()">
+              <span class="icon-[tabler--share] size-4"></span>
+              Share public page
+            </button>
+            @if (shareStatus()) {
+              <span class="text-xs text-success">{{ shareStatus() }}</span>
+            }
+          </div>
           <div #answerContent class="answer-render" [innerHTML]="renderedAnswer()"></div>
           <div class="text-xs text-base-content/40 mt-4">
             {{ currentAnswer()!.createdAt | date: 'medium' }}

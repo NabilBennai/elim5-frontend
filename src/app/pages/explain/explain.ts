@@ -15,6 +15,7 @@ interface Explanation {
   topic: string;
   level: ExplanationLevel;
   answer: string;
+  shareId?: string | null;
   createdAt: string;
 }
 
@@ -36,6 +37,7 @@ export class Explain {
   currentAnswer = signal<Explanation | null>(null);
   history = signal<Explanation[]>([]);
   error = signal('');
+  shareStatus = signal('');
   renderedAnswer = signal<SafeHtml>('');
 
   constructor() {
@@ -63,6 +65,7 @@ export class Explain {
 
     this.loading.set(true);
     this.error.set('');
+    this.shareStatus.set('');
     this.currentAnswer.set(null);
 
     this.http.post<Explanation>(buildApiUrl('/explain'), { topic: value, level }).subscribe({
@@ -97,10 +100,42 @@ export class Explain {
     this.currentAnswer.set(item);
     this.selectedLevel.set(item.level);
     this.topic = item.topic;
+    this.shareStatus.set('');
   }
 
   levelLabel(level: ExplanationLevel) {
     return level.charAt(0) + level.slice(1).toLowerCase();
+  }
+
+  shareCurrent() {
+    const current = this.currentAnswer();
+    if (!current || this.loading()) return;
+
+    this.loading.set(true);
+    this.error.set('');
+    this.shareStatus.set('');
+
+    this.http.post<{ shareId: string }>(buildApiUrl(`/explain/${current.id}/share`), {}).subscribe({
+      next: async ({ shareId }) => {
+        const shared: Explanation = { ...current, shareId };
+        this.currentAnswer.set(shared);
+        this.history.update((items) => items.map((it) => (it.id === shared.id ? shared : it)));
+
+        const publicUrl = `${window.location.origin}/shared/${shareId}`;
+        try {
+          await navigator.clipboard.writeText(publicUrl);
+          this.shareStatus.set('Public link copied');
+        } catch {
+          this.shareStatus.set(`Public link: ${publicUrl}`);
+        }
+
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.error.set(err.error?.message || 'Failed to create share link');
+        this.loading.set(false);
+      },
+    });
   }
 
   private renderMath() {

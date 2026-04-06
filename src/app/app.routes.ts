@@ -12,6 +12,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'shared/:shareId',
+    loadComponent: () => import('./pages/shared/shared').then((m) => m.Shared),
+  },
+  {
     path: 'login',
     loadComponent: () => import('./pages/login/login').then((m) => m.Login),
     canActivate: [guestGuard],
