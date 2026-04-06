@@ -1,17 +1,7 @@
-const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1']);
+import { environment } from '../../../environments/environment';
 
 function getBaseUrl() {
-  if (typeof window === 'undefined') {
-    return '/api';
-  }
-
-  const { hostname } = window.location;
-
-  if (LOCAL_HOSTS.has(hostname)) {
-    return 'http://localhost:3000';
-  }
-
-  return `${window.location.origin}/api`;
+  return environment.apiBaseUrl.replace(/\/$/, '');
 }
 
 export function buildApiUrl(path: string) {
