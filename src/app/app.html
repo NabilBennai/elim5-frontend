@@ -1,7 +1,9 @@
 @if (isDev) {
   <div class="dev-ribbon">DEV</div>
 }
-<app-navbar></app-navbar>
-<main>
-  <router-outlet></router-outlet>
-</main>
+<div class="app-shell">
+  <app-navbar></app-navbar>
+  <main class="app-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

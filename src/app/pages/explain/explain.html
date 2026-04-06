@@ -1,15 +1,86 @@
-<div class="flex h-full flex-col lg:flex-row gap-4 md:gap-6 p-3 sm:p-4 md:p-6 overflow-y-auto">
-  <!-- Main panel -->
-  <div class="flex flex-col gap-6 flex-1 min-w-0">
-    <!-- Input -->
-    <div class="card bg-base-200 shadow-md">
-      <div class="card-body">
-        <h2 class="card-title gap-2">
-          <span class="icon-[tabler--sparkles] size-5 text-primary"></span>
-          {{ 'explain.title' | t }}
-        </h2>
+<div class="chat-layout p-2 sm:p-4 md:p-6">
+  <div class="chat-main">
+    <div #threadContainer class="chat-thread">
+      @if (currentAnswer()) {
+        <div class="chat-message user-message">
+          <div class="chat-avatar">N</div>
+          <div class="chat-bubble">
+            <div class="text-sm font-semibold mb-1">{{ currentAnswer()!.topic }}</div>
+            <div class="text-xs opacity-70">{{ currentAnswer()!.createdAt | date: 'medium' }}</div>
+          </div>
+        </div>
+
+        <div class="chat-message assistant-message">
+          <div class="chat-avatar">
+            <span class="icon-[tabler--sparkles] size-4"></span>
+          </div>
+          <div class="chat-bubble">
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <span class="badge badge-primary">{{ currentAnswer()!.level }}</span>
+              <button type="button" class="btn btn-xs btn-ghost" (click)="shareCurrent()">
+                <span class="icon-[tabler--share] size-4"></span>
+                {{ 'explain.button.share' | t }}
+              </button>
+              @if (shareStatus()) {
+                <span class="text-xs text-success">{{ shareStatus() }}</span>
+              }
+            </div>
+
+            <div #answerContent class="answer-render" [innerHTML]="renderedAnswer()"></div>
+
+            @if (currentAnswer()!.sources.length) {
+              <div class="sources-block mt-5">
+                <h4 class="font-semibold mb-2">{{ 'explain.sources' | t }}</h4>
+                <div class="flex flex-col gap-2">
+                  @for (src of currentAnswer()!.sources; track src.id) {
+                    <div class="rounded-lg border border-base-300 bg-base-100 p-3">
+                      <div class="flex items-center justify-between gap-2 mb-1">
+                        <span class="badge badge-outline"
+                          >[{{ src.citationIndex }}] {{ src.sourceType }}</span
+                        >
+                        <a
+                          class="link link-primary text-xs truncate"
+                          [href]="src.sourceUrl"
+                          target="_blank"
+                        >
+                          {{ src.sourceUrl }}
+                        </a>
+                      </div>
+                      <p class="text-xs text-base-content/70 whitespace-pre-line">
+                        {{ src.snippet }}
+                      </p>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      } @else if (!loading()) {
+        <div class="chat-empty">
+          <span class="icon-[tabler--message-circle] size-9 text-base-content/40"></span>
+          <p>{{ 'explain.empty' | t }}</p>
+        </div>
+      }
+
+      @if (loading()) {
+        <div class="chat-message assistant-message">
+          <div class="chat-avatar">
+            <span class="icon-[tabler--sparkles] size-4"></span>
+          </div>
+          <div class="chat-bubble thinking-bubble">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="composer-wrap">
+      <div class="composer">
         <textarea
-          class="textarea textarea-bordered w-full min-h-28 text-base"
+          class="textarea textarea-bordered w-full min-h-24 text-base"
           [placeholder]="'explain.placeholder.topic' | t"
           [(ngModel)]="topic"
           [disabled]="loading()"
@@ -22,7 +93,7 @@
           [(ngModel)]="sourceUrl"
           [disabled]="loading()"
         />
-        <div class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap items-center gap-2">
           @for (level of levels; track level) {
             <button
               type="button"
@@ -36,10 +107,26 @@
             </button>
           }
         </div>
+        @if (currentAnswer()) {
+          <div class="flex flex-wrap gap-2">
+            @for (level of levels; track level) {
+              <button
+                type="button"
+                class="btn btn-xs"
+                [class.btn-primary]="currentAnswer()!.level === level"
+                [class.btn-outline]="currentAnswer()!.level !== level"
+                (click)="regenerateAtLevel(level)"
+                [disabled]="loading()"
+              >
+                {{ levelLabel(level) }}
+              </button>
+            }
+          </div>
+        }
         @if (error()) {
           <div class="alert alert-error text-sm">{{ error() }}</div>
         }
-        <div class="card-actions justify-end">
+        <div class="flex justify-end">
           <button
             class="btn btn-primary gap-2"
             (click)="submit()"
@@ -55,108 +142,6 @@
           </button>
         </div>
       </div>
-    </div>
-
-    <!-- Answer -->
-    @if (currentAnswer()) {
-      <div class="card bg-base-200 shadow-md flex-1 overflow-y-auto">
-        <div class="card-body">
-          <div class="flex items-center gap-2 mb-3">
-            <span class="badge badge-primary">{{ currentAnswer()!.level }}</span>
-            <h3 class="font-semibold text-lg truncate">{{ currentAnswer()!.topic }}</h3>
-          </div>
-          <div class="flex flex-wrap gap-2 mb-4">
-            @for (level of levels; track level) {
-              <button
-                type="button"
-                class="btn btn-xs"
-                [class.btn-primary]="currentAnswer()!.level === level"
-                [class.btn-outline]="currentAnswer()!.level !== level"
-                (click)="regenerateAtLevel(level)"
-                [disabled]="loading()"
-              >
-                {{ levelLabel(level) }}
-              </button>
-            }
-          </div>
-          <div class="flex items-center gap-2 mb-3">
-            <button type="button" class="btn btn-sm btn-outline" (click)="shareCurrent()">
-              <span class="icon-[tabler--share] size-4"></span>
-              {{ 'explain.button.share' | t }}
-            </button>
-            @if (shareStatus()) {
-              <span class="text-xs text-success">{{ shareStatus() }}</span>
-            }
-          </div>
-          <div #answerContent class="answer-render" [innerHTML]="renderedAnswer()"></div>
-          @if (currentAnswer()!.sources.length) {
-            <div class="mt-5">
-              <h4 class="font-semibold mb-2">{{ 'explain.sources' | t }}</h4>
-              <div class="flex flex-col gap-2">
-                @for (src of currentAnswer()!.sources; track src.id) {
-                  <div class="rounded-lg border border-base-300 bg-base-100 p-3">
-                    <div class="flex items-center justify-between gap-2 mb-1">
-                      <span class="badge badge-outline"
-                        >[{{ src.citationIndex }}] {{ src.sourceType }}</span
-                      >
-                      <a
-                        class="link link-primary text-xs truncate"
-                        [href]="src.sourceUrl"
-                        target="_blank"
-                      >
-                        {{ src.sourceUrl }}
-                      </a>
-                    </div>
-                    <p class="text-xs text-base-content/70 whitespace-pre-line">
-                      {{ src.snippet }}
-                    </p>
-                  </div>
-                }
-              </div>
-            </div>
-          }
-          <div class="text-xs text-base-content/40 mt-4">
-            {{ currentAnswer()!.createdAt | date: 'medium' }}
-          </div>
-        </div>
-      </div>
-    } @else if (!loading()) {
-      <div class="flex flex-1 items-center justify-center text-base-content/30">
-        <div class="text-center">
-          <span class="text-6xl block mb-4">🧒</span>
-          <p class="text-lg">{{ 'explain.empty' | t }}</p>
-        </div>
-      </div>
-    }
-  </div>
-
-  <!-- History sidebar -->
-  <div class="lg:w-80 shrink-0 flex flex-col gap-2 overflow-visible lg:overflow-hidden">
-    <h3 class="font-semibold text-lg flex items-center gap-2 px-1">
-      <span class="icon-[tabler--history] size-5"></span>
-      {{ 'explain.history' | t }}
-    </h3>
-    <div class="flex flex-col gap-2 overflow-y-auto flex-1 pr-1">
-      @for (item of history(); track item.id) {
-        <button
-          class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer text-left"
-          (click)="showFromHistory(item)"
-          [class.ring-2]="currentAnswer()?.id === item.id"
-          [class.ring-primary]="currentAnswer()?.id === item.id"
-        >
-          <div class="card-body p-3">
-            <div class="flex items-center justify-between gap-2">
-              <p class="font-medium text-sm truncate">{{ item.topic }}</p>
-              <span class="badge badge-ghost badge-xs">{{ item.level }}</span>
-            </div>
-            <p class="text-xs text-base-content/50 line-clamp-2">{{ item.answer }}</p>
-          </div>
-        </button>
-      } @empty {
-        <p class="text-sm text-base-content/40 text-center py-8">
-          {{ 'explain.history.empty' | t }}
-        </p>
-      }
     </div>
   </div>
 </div>

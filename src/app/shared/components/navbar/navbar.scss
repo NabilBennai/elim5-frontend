@@ -1,19 +1,228 @@
-.lang-select {
-  min-width: 150px;
-  height: 2rem;
-  line-height: 1.2;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 0.65rem;
-  padding-right: 1.9rem;
-  display: inline-flex;
+.mobile-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  height: 3.5rem;
+  display: flex;
   align-items: center;
-  vertical-align: middle;
+  gap: 0.65rem;
+  padding: 0 0.8rem;
+  border-bottom: 1px solid color-mix(in oklab, hsl(var(--bc)) 16%, transparent);
+  background: color-mix(in oklab, hsl(var(--b1)) 94%, black 6%);
 }
 
-@media (max-width: 768px) {
-  .lang-select {
-    min-width: 100%;
-    width: 100%;
+.brand {
+  color: hsl(var(--bc));
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brand-mini {
+  display: none;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.app-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  width: 270px;
+  max-width: 85vw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+  background: color-mix(in oklab, hsl(var(--b1)) 96%, black 4%);
+  transform: translateX(-100%);
+  transition:
+    transform 0.2s ease,
+    width 0.2s ease;
+}
+
+.app-sidebar.open {
+  transform: translateX(0);
+}
+
+.sidebar-top {
+  height: 3.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.9rem;
+  border-bottom: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.7rem;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.7rem;
+  color: hsl(var(--bc));
+  text-decoration: none;
+}
+
+.sidebar-nav a:hover {
+  background: color-mix(in oklab, hsl(var(--b2)) 82%, black 18%);
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border-top: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+}
+
+.sidebar-history {
+  padding: 0.35rem 0.8rem 0.7rem;
+}
+
+.history-title {
+  margin: 0 0 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: hsl(var(--bc) / 0.55);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-height: 38vh;
+  overflow-y: auto;
+  padding-right: 0.1rem;
+}
+
+.history-entry {
+  width: 100%;
+  text-align: left;
+  border: 1px solid color-mix(in oklab, hsl(var(--bc)) 14%, transparent);
+  border-radius: 0.65rem;
+  background: color-mix(in oklab, hsl(var(--b2)) 86%, black 14%);
+  padding: 0.45rem 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.history-entry:hover {
+  background: color-mix(in oklab, hsl(var(--b2)) 72%, black 28%);
+}
+
+.history-entry.active {
+  border-color: hsl(var(--p) / 0.45);
+}
+
+.history-topic {
+  font-size: 0.77rem;
+  color: hsl(var(--bc));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-level {
+  font-size: 0.66rem;
+  color: hsl(var(--bc) / 0.62);
+}
+
+.history-empty {
+  margin: 0.2rem 0 0;
+  font-size: 0.74rem;
+  color: hsl(var(--bc) / 0.5);
+}
+
+.lang-select {
+  width: 100%;
+}
+
+.user-box {
+  margin-top: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-email {
+  margin: 0;
+  font-size: 0.78rem;
+  color: hsl(var(--bc) / 0.65);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 1024px) {
+  .mobile-header,
+  .sidebar-overlay {
+    display: none;
+  }
+
+  .app-sidebar {
+    position: sticky;
+    transform: none;
+    z-index: 20;
+    max-width: none;
+    width: var(--sidebar-width, 270px);
+    background: linear-gradient(
+      180deg,
+      color-mix(in oklab, hsl(var(--b1)) 94%, black 6%),
+      color-mix(in oklab, hsl(var(--b1)) 90%, black 10%)
+    );
+  }
+
+  .app-sidebar.collapsed .brand-full,
+  .app-sidebar.collapsed .sidebar-label,
+  .app-sidebar.collapsed .sidebar-history,
+  .app-sidebar.collapsed .sidebar-footer {
+    display: none;
+  }
+
+  .app-sidebar.collapsed .brand-mini {
+    display: inline;
+  }
+
+  .app-sidebar.collapsed .sidebar-top {
+    justify-content: center;
+    gap: 0.45rem;
+    padding-inline: 0.3rem;
+  }
+
+  .app-sidebar.collapsed .sidebar-nav {
+    align-items: center;
+    padding-inline: 0.45rem;
+  }
+
+  .app-sidebar.collapsed .sidebar-nav a {
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    border-radius: 0.8rem;
   }
 }

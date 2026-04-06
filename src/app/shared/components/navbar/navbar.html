@@ -1,62 +1,98 @@
-<nav class="navbar rounded-box shadow-base-300/20 shadow-sm">
-  <div class="w-full md:flex md:items-center md:gap-2">
-    <div class="flex items-center justify-between">
-      <div class="navbar-start items-center justify-between max-md:w-full">
-        <a class="link text-base-content link-neutral text-xl font-bold no-underline" routerLink="/"
-          >ELIM5</a
-        >
-        <div class="md:hidden">
-          <button
-            type="button"
-            class="collapse-toggle btn btn-outline btn-secondary btn-sm btn-square"
-            data-collapse="#default-navbar-collapse"
-            aria-controls="default-navbar-collapse"
-            aria-label="Language"
-          >
-            <span class="icon-[tabler--menu-2] collapse-open:hidden size-4"></span>
-            <span class="icon-[tabler--x] collapse-open:block hidden size-4"></span>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      id="default-navbar-collapse"
-      class="md:navbar-end collapse hidden grow basis-full overflow-hidden transition-[height] duration-300 max-md:w-full"
-    >
-      <ul class="menu md:menu-horizontal items-center gap-2 p-0 text-base max-md:mt-2">
-        <li>
-          <a routerLink="/">{{ 'nav.home' | t }}</a>
-        </li>
-        <li>
-          <select
-            class="select select-bordered select-sm lang-select"
-            [value]="i18n.language()"
-            (change)="changeLanguage($any($event.target).value)"
-            [attr.aria-label]="'nav.lang' | t"
-          >
-            @for (lang of languages; track lang.code) {
-              <option [value]="lang.code">{{ lang.flag }} {{ lang.labelKey | t }}</option>
-            }
-          </select>
-        </li>
-        @if (auth.isLoggedIn()) {
-          <li>
-            <span class="text-base-content/60">{{ auth.user()?.email }}</span>
-          </li>
-          <li>
-            <button (click)="logout()" class="btn btn-outline btn-error btn-sm">
-              {{ 'nav.logout' | t }}
-            </button>
-          </li>
+<div class="mobile-header lg:hidden">
+  <button type="button" class="btn btn-ghost btn-sm btn-square" (click)="toggleSidebar()">
+    <span class="icon-[tabler--menu-2] size-5"></span>
+  </button>
+  <a class="brand" routerLink="/" (click)="closeSidebar()">ELIM5</a>
+</div>
+
+<div class="sidebar-overlay" [class.open]="mobileOpen()" (click)="closeSidebar()"></div>
+
+<aside class="app-sidebar" [class.open]="mobileOpen()" [class.collapsed]="collapsed()">
+  <div class="sidebar-top">
+    <a class="brand" routerLink="/" (click)="closeSidebar()">
+      <span class="brand-full">ELIM5</span>
+      <span class="brand-mini">E5</span>
+    </a>
+    <div class="flex items-center gap-1">
+      <button
+        type="button"
+        class="btn btn-ghost btn-sm btn-square hidden lg:inline-flex"
+        (click)="toggleCollapsed()"
+      >
+        @if (collapsed()) {
+          <span class="icon-[tabler--layout-sidebar-right-expand] size-5"></span>
         } @else {
-          <li>
-            <a routerLink="/login">{{ 'nav.login' | t }}</a>
-          </li>
-          <li>
-            <a routerLink="/register">{{ 'nav.register' | t }}</a>
-          </li>
+          <span class="icon-[tabler--layout-sidebar-left-collapse] size-5"></span>
         }
-      </ul>
+      </button>
+      <button
+        type="button"
+        class="btn btn-ghost btn-sm btn-square lg:hidden"
+        (click)="closeSidebar()"
+      >
+        <span class="icon-[tabler--x] size-5"></span>
+      </button>
     </div>
   </div>
-</nav>
+
+  <nav class="sidebar-nav">
+    <a routerLink="/" (click)="closeSidebar()" [attr.title]="'nav.home' | t">
+      <span class="icon-[tabler--home] size-5"></span>
+      <span class="sidebar-label">{{ 'nav.home' | t }}</span>
+    </a>
+    @if (!auth.isLoggedIn()) {
+      <a routerLink="/login" (click)="closeSidebar()" [attr.title]="'nav.login' | t">
+        <span class="icon-[tabler--login] size-5"></span>
+        <span class="sidebar-label">{{ 'nav.login' | t }}</span>
+      </a>
+      <a routerLink="/register" (click)="closeSidebar()" [attr.title]="'nav.register' | t">
+        <span class="icon-[tabler--user-plus] size-5"></span>
+        <span class="sidebar-label">{{ 'nav.register' | t }}</span>
+      </a>
+    }
+  </nav>
+
+  @if (auth.isLoggedIn() && !collapsed()) {
+    <div class="sidebar-history">
+      <p class="history-title">{{ 'explain.history' | t }}</p>
+      <div class="history-list">
+        @for (item of history().slice(0, 8); track item.id) {
+          <button
+            type="button"
+            class="history-entry"
+            [class.active]="selectedHistory()?.id === item.id"
+            (click)="openHistory(item)"
+          >
+            <span class="history-topic">{{ item.topic }}</span>
+            <span class="history-level">{{ item.level }}</span>
+          </button>
+        } @empty {
+          <p class="history-empty">{{ 'explain.history.empty' | t }}</p>
+        }
+      </div>
+    </div>
+  }
+
+  <div class="sidebar-footer">
+    <label class="text-xs uppercase tracking-wide text-base-content/60">{{ 'nav.lang' | t }}</label>
+    <select
+      class="select select-bordered select-sm lang-select"
+      [value]="i18n.language()"
+      (change)="changeLanguage($any($event.target).value)"
+      [attr.aria-label]="'nav.lang' | t"
+    >
+      @for (lang of languages; track lang.code) {
+        <option [value]="lang.code">{{ lang.flag }} - {{ lang.labelKey | t }}</option>
+      }
+    </select>
+
+    @if (auth.isLoggedIn()) {
+      <div class="user-box">
+        <p class="user-email">{{ auth.user()?.email }}</p>
+        <button (click)="logout()" class="btn btn-outline btn-error btn-sm w-full">
+          {{ 'nav.logout' | t }}
+        </button>
+      </div>
+    }
+  </div>
+</aside>

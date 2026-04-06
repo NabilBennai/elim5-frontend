@@ -1,1 +1,94 @@
 @import 'katex/dist/katex.min.css';
+
+:root {
+  --cg-bg: #0f1117;
+  --cg-surface: #171a22;
+  --cg-border: #2b313d;
+  --cg-text: #e5e7eb;
+  --cg-muted: #9ca3af;
+  --cg-primary: #19c37d;
+  --cg-primary-hover: #16a56a;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--cg-text);
+  background: var(--cg-bg);
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+}
+
+.navbar {
+  background: color-mix(in srgb, var(--cg-surface) 94%, #0d1117 6%);
+  border: 1px solid var(--cg-border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.card {
+  border: 1px solid var(--cg-border);
+  border-radius: 14px;
+  background: var(--cg-surface);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+.btn {
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.btn-primary {
+  color: #fff;
+  border-color: var(--cg-primary);
+  background: var(--cg-primary);
+}
+
+.btn-primary:hover {
+  border-color: var(--cg-primary-hover);
+  background: var(--cg-primary-hover);
+}
+
+.btn-outline {
+  border-color: var(--cg-border);
+  color: var(--cg-text);
+}
+
+.btn-outline:hover {
+  background: #1f2430;
+}
+
+.input,
+.textarea,
+.select {
+  border-color: #3a4456;
+  border-radius: 10px;
+  background: #11151d;
+  color: var(--cg-text);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: #5e6b83;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(25, 195, 125, 0.2);
+}
+
+.text-base-content\/50,
+.text-base-content\/60,
+.text-base-content\/70 {
+  color: var(--cg-muted) !important;
+}
+
+.badge-primary {
+  border-color: #14532d;
+  background: #052e1f;
+  color: #6ee7b7;
+}
