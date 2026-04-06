@@ -1,0 +1,43 @@
+.answer-render {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: hsl(var(--bc));
+}
+
+.answer-render :where(h1, h2, h3, h4) {
+  font-weight: 700;
+  margin: 1rem 0 0.5rem;
+}
+
+.answer-render :where(p) {
+  margin: 0.75rem 0;
+}
+
+.answer-render :where(ul, ol) {
+  margin: 0.75rem 0 0.75rem 1.25rem;
+}
+
+.answer-render :where(li) {
+  margin: 0.25rem 0;
+}
+
+.answer-render :where(code) {
+  background: color-mix(in oklab, hsl(var(--b2)) 85%, black 15%);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+.answer-render :where(pre) {
+  overflow-x: auto;
+  background: hsl(var(--b2));
+  border-radius: 0.5rem;
+  padding: 0.85rem;
+}
+
+.answer-render :where(blockquote) {
+  border-left: 3px solid hsl(var(--p));
+  padding-left: 0.75rem;
+  margin: 0.9rem 0;
+  opacity: 0.95;
+}

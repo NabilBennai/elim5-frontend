@@ -16,6 +16,20 @@
           (keydown.meta.Enter)="submit()"
           (keydown.control.Enter)="submit()"
         ></textarea>
+        <div class="flex flex-wrap gap-2">
+          @for (level of levels; track level) {
+            <button
+              type="button"
+              class="btn btn-sm"
+              [class.btn-primary]="selectedLevel() === level"
+              [class.btn-outline]="selectedLevel() !== level"
+              (click)="selectedLevel.set(level)"
+              [disabled]="loading()"
+            >
+              {{ levelLabel(level) }}
+            </button>
+          }
+        </div>
         @if (error()) {
           <div class="alert alert-error text-sm">{{ error() }}</div>
         }
@@ -41,11 +55,25 @@
     @if (currentAnswer()) {
       <div class="card bg-base-200 shadow-md flex-1 overflow-y-auto">
         <div class="card-body">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="badge badge-primary">ELI5</span>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="badge badge-primary">{{ currentAnswer()!.level }}</span>
             <h3 class="font-semibold text-lg truncate">{{ currentAnswer()!.topic }}</h3>
           </div>
-          <p class="text-base leading-relaxed whitespace-pre-line">{{ currentAnswer()!.answer }}</p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            @for (level of levels; track level) {
+              <button
+                type="button"
+                class="btn btn-xs"
+                [class.btn-primary]="currentAnswer()!.level === level"
+                [class.btn-outline]="currentAnswer()!.level !== level"
+                (click)="regenerateAtLevel(level)"
+                [disabled]="loading()"
+              >
+                {{ levelLabel(level) }}
+              </button>
+            }
+          </div>
+          <div #answerContent class="answer-render" [innerHTML]="renderedAnswer()"></div>
           <div class="text-xs text-base-content/40 mt-4">
             {{ currentAnswer()!.createdAt | date: 'medium' }}
           </div>
@@ -76,7 +104,10 @@
           [class.ring-primary]="currentAnswer()?.id === item.id"
         >
           <div class="card-body p-3">
-            <p class="font-medium text-sm truncate">{{ item.topic }}</p>
+            <div class="flex items-center justify-between gap-2">
+              <p class="font-medium text-sm truncate">{{ item.topic }}</p>
+              <span class="badge badge-ghost badge-xs">{{ item.level }}</span>
+            </div>
             <p class="text-xs text-base-content/50 line-clamp-2">{{ item.answer }}</p>
           </div>
         </button>
