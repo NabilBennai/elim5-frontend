@@ -20,7 +20,11 @@
           <div class="alert alert-error text-sm">{{ error() }}</div>
         }
         <div class="card-actions justify-end">
-          <button class="btn btn-primary gap-2" (click)="submit()" [disabled]="!topic.trim() || loading()">
+          <button
+            class="btn btn-primary gap-2"
+            (click)="submit()"
+            [disabled]="!topic.trim() || loading()"
+          >
             @if (loading()) {
               <span class="loading loading-spinner loading-sm"></span>
               Explaining...
@@ -43,7 +47,7 @@
           </div>
           <p class="text-base leading-relaxed whitespace-pre-line">{{ currentAnswer()!.answer }}</p>
           <div class="text-xs text-base-content/40 mt-4">
-            {{ currentAnswer()!.createdAt | date:'medium' }}
+            {{ currentAnswer()!.createdAt | date: 'medium' }}
           </div>
         </div>
       </div>

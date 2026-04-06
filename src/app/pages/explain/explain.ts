@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { buildApiUrl } from '../../core/api/api-url';
 
 interface Explanation {
   id: string;
@@ -36,7 +37,7 @@ export class Explain {
     this.error.set('');
     this.currentAnswer.set(null);
 
-    this.http.post<Explanation>('http://localhost:3000/explain', { topic: value }).subscribe({
+    this.http.post<Explanation>(buildApiUrl('/explain'), { topic: value }).subscribe({
       next: (res) => {
         this.currentAnswer.set(res);
         this.history.update((h) => [res, ...h]);
@@ -51,7 +52,7 @@ export class Explain {
   }
 
   loadHistory() {
-    this.http.get<Explanation[]>('http://localhost:3000/explain/history').subscribe({
+    this.http.get<Explanation[]>(buildApiUrl('/explain/history')).subscribe({
       next: (data) => this.history.set(data),
     });
   }

@@ -2,6 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
+import { buildApiUrl } from '../api/api-url';
 
 interface User {
   id: string;
@@ -15,7 +16,7 @@ interface AuthResponse {
 }
 
 const TOKEN_KEY = 'access_token';
-const API = 'http://localhost:3000/auth';
+const API = buildApiUrl('/auth');
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
