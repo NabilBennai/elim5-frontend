@@ -1,0 +1,84 @@
+<div class="flex h-full flex-col lg:flex-row gap-6 p-6 overflow-hidden">
+  <!-- Main panel -->
+  <div class="flex flex-col gap-6 flex-1 min-w-0">
+    <!-- Input -->
+    <div class="card bg-base-200 shadow-md">
+      <div class="card-body">
+        <h2 class="card-title gap-2">
+          <span class="icon-[tabler--sparkles] size-5 text-primary"></span>
+          What do you want explained?
+        </h2>
+        <textarea
+          class="textarea textarea-bordered w-full min-h-28 text-base"
+          placeholder="Paste a topic, concept, or paragraph here..."
+          [(ngModel)]="topic"
+          [disabled]="loading()"
+          (keydown.meta.Enter)="submit()"
+          (keydown.control.Enter)="submit()"
+        ></textarea>
+        @if (error()) {
+          <div class="alert alert-error text-sm">{{ error() }}</div>
+        }
+        <div class="card-actions justify-end">
+          <button class="btn btn-primary gap-2" (click)="submit()" [disabled]="!topic.trim() || loading()">
+            @if (loading()) {
+              <span class="loading loading-spinner loading-sm"></span>
+              Explaining...
+            } @else {
+              <span class="icon-[tabler--send] size-4"></span>
+              Explain it!
+            }
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Answer -->
+    @if (currentAnswer()) {
+      <div class="card bg-base-200 shadow-md flex-1 overflow-y-auto">
+        <div class="card-body">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="badge badge-primary">ELI5</span>
+            <h3 class="font-semibold text-lg truncate">{{ currentAnswer()!.topic }}</h3>
+          </div>
+          <p class="text-base leading-relaxed whitespace-pre-line">{{ currentAnswer()!.answer }}</p>
+          <div class="text-xs text-base-content/40 mt-4">
+            {{ currentAnswer()!.createdAt | date:'medium' }}
+          </div>
+        </div>
+      </div>
+    } @else if (!loading()) {
+      <div class="flex flex-1 items-center justify-center text-base-content/30">
+        <div class="text-center">
+          <span class="text-6xl block mb-4">🧒</span>
+          <p class="text-lg">Enter a topic above and hit "Explain it!"</p>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- History sidebar -->
+  <div class="lg:w-80 shrink-0 flex flex-col gap-2 overflow-hidden">
+    <h3 class="font-semibold text-lg flex items-center gap-2 px-1">
+      <span class="icon-[tabler--history] size-5"></span>
+      History
+    </h3>
+    <div class="flex flex-col gap-2 overflow-y-auto flex-1 pr-1">
+      @for (item of history(); track item.id) {
+        <button
+          class="card bg-base-200 shadow-sm hover:bg-base-300 transition-colors cursor-pointer text-left"
+          (click)="showFromHistory(item)"
+          [class.ring-2]="currentAnswer()?.id === item.id"
+          [class.ring-primary]="currentAnswer()?.id === item.id"
+        >
+          <div class="card-body p-3">
+            <p class="font-medium text-sm truncate">{{ item.topic }}</p>
+            <p class="text-xs text-base-content/50 line-clamp-2">{{ item.answer }}</p>
+          </div>
+        </button>
+      } @empty {
+        <p class="text-sm text-base-content/40 text-center py-8">No explanations yet</p>
+      }
+    </div>
+  </div>
+</div>
