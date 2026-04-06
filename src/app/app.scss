@@ -1,3 +1,21 @@
 main {
   height: calc(100vh - 70px);
 }
+
+.dev-ribbon {
+  position: fixed;
+  top: 18px;
+  left: -46px;
+  z-index: 1000;
+  width: 150px;
+  transform: rotate(-45deg);
+  background: #b91c1c;
+  color: #ffffff;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 0;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
