@@ -39,12 +39,12 @@
       @for (plan of plans(); track plan.id) {
         <article class="plan-card" [class.recommended]="plan.recommended">
           <div class="plan-head">
-            <h2>{{ plan.name }}</h2>
+            <h2>{{ plan.name | t }}</h2>
             @if (plan.recommended) {
               <span class="badge badge-primary">{{ 'pricing.recommended' | t }}</span>
             }
           </div>
-          <p class="plan-tagline">{{ plan.tagline }}</p>
+          <p class="plan-tagline">{{ plan.tagline | t }}</p>
           <p class="plan-price">{{ formatPrice(plan) }}</p>
           @if (billingCycle() === 'yearly' && yearlySavingsPercent(plan) > 0) {
             <p class="plan-savings">
@@ -68,7 +68,7 @@
             @for (feature of plan.features; track feature) {
               <li>
                 <span class="icon-[tabler--check] size-4 text-success"></span>
-                <span>{{ feature }}</span>
+                <span>{{ feature | t }}</span>
               </li>
             }
           </ul>
