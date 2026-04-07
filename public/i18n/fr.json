@@ -74,6 +74,7 @@
   "profile.billingCycle": "Cycle de facturation",
   "profile.cancelAtPeriodEnd": "Annulation en fin de periode",
   "profile.credits.title": "Apercu des credits",
+  "profile.credits.remaining": "restants",
   "profile.billing.title": "Facturation",
   "profile.billing.subtitle": "Gerez le moyen de paiement, les factures et l'abonnement dans Stripe.",
   "profile.billing.manage": "Gerer la facturation",

@@ -74,6 +74,7 @@
   "profile.billingCycle": "Billing cycle",
   "profile.cancelAtPeriodEnd": "Cancels at period end",
   "profile.credits.title": "Credit overview",
+  "profile.credits.remaining": "remaining",
   "profile.billing.title": "Billing",
   "profile.billing.subtitle": "Manage payment method, invoices, and subscription in Stripe.",
   "profile.billing.manage": "Manage billing",

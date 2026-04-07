@@ -44,6 +44,7 @@ interface PortalResponse {
   selector: 'app-profile',
   imports: [ReactiveFormsModule, DatePipe, TranslatePipe],
   templateUrl: './profile.html',
+  styleUrl: './profile.scss',
 })
 export class Profile {
   private http = inject(HttpClient);
@@ -73,6 +74,16 @@ export class Profile {
   tierLabelKey() {
     const planId = this.subscription()?.planId || this.credits()?.planId || 'free';
     return `nav.tier.${planId}`;
+  }
+
+  creditPercent(window: CreditWindow) {
+    if (window.limit <= 0) return 0;
+    return Math.min(100, Math.round((window.used / window.limit) * 100));
+  }
+
+  creditCircleBackground(window: CreditWindow) {
+    const pct = this.creditPercent(window);
+    return `conic-gradient(hsl(var(--p)) ${pct}%, color-mix(in oklab, hsl(var(--bc)) 18%, transparent) ${pct}% 100%)`;
   }
 
   onSubmitPassword() {

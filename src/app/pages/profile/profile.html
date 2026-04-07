@@ -49,11 +49,21 @@
         @if (credits()) {
           <div class="grid gap-3 md:grid-cols-3">
             @for (window of credits()!.windows; track window.key) {
-              <div class="rounded-xl border border-base-300 p-4">
+              <div class="rounded-xl border border-base-300 p-4 credit-card">
                 <p class="text-xs uppercase text-base-content/60">
                   {{ 'nav.credits.' + window.key | t }}
                 </p>
-                <p class="font-medium">{{ window.remaining }}/{{ window.limit }}</p>
+                <div class="credit-circle-wrap">
+                  <div class="credit-circle" [style.background]="creditCircleBackground(window)">
+                    <div class="credit-circle-inner">
+                      <p class="credit-circle-value">{{ creditPercent(window) }}%</p>
+                      <p class="credit-circle-label">used</p>
+                    </div>
+                  </div>
+                </div>
+                <p class="font-medium text-sm text-center mt-2">
+                  {{ window.remaining }} {{ 'profile.credits.remaining' | t }}
+                </p>
               </div>
             }
           </div>
