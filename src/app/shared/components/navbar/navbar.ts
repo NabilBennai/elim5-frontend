@@ -21,6 +21,7 @@ interface CreditWindow {
 
 interface CreditStatus {
   allowed: boolean;
+  planId: 'free' | 'starter' | 'pro';
   windows: CreditWindow[];
 }
 
@@ -115,6 +116,12 @@ export class Navbar implements OnDestroy {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     return `${hours}h ${minutes}m`;
+  }
+
+  tierLabelKey() {
+    const planId = this.credits()?.planId;
+    if (!planId) return null;
+    return `nav.tier.${planId}`;
   }
 
   private loadCredits() {

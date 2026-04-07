@@ -2,16 +2,24 @@
   <button type="button" class="btn btn-ghost btn-sm btn-square" (click)="toggleSidebar()">
     <span class="icon-[tabler--menu-2] size-5"></span>
   </button>
-  <a class="brand" routerLink="/" (click)="closeSidebar()">ELIM5</a>
+  <a class="brand brand-with-tier" routerLink="/" (click)="closeSidebar()">
+    <span>ELIM5</span>
+    @if (auth.isLoggedIn() && tierLabelKey()) {
+      <span class="badge badge-primary badge-sm">{{ tierLabelKey()! | t }}</span>
+    }
+  </a>
 </div>
 
 <div class="sidebar-overlay" [class.open]="mobileOpen()" (click)="closeSidebar()"></div>
 
 <aside class="app-sidebar" [class.open]="mobileOpen()" [class.collapsed]="collapsed()">
   <div class="sidebar-top">
-    <a class="brand" routerLink="/" (click)="closeSidebar()">
+    <a class="brand brand-with-tier" routerLink="/" (click)="closeSidebar()">
       <span class="brand-full">ELIM5</span>
       <span class="brand-mini">E5</span>
+      @if (auth.isLoggedIn() && !collapsed() && tierLabelKey()) {
+        <span class="badge badge-primary badge-sm">{{ tierLabelKey()! | t }}</span>
+      }
     </a>
     <div class="flex items-center gap-1">
       <button

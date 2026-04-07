@@ -18,6 +18,12 @@
   letter-spacing: 0.02em;
 }
 
+.brand-with-tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 .brand-mini {
   display: none;
 }
