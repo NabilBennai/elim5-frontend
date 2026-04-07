@@ -26,6 +26,10 @@ interface PricingResponse {
   plans: PricingPlan[];
 }
 
+interface CheckoutResponse {
+  url: string;
+}
+
 @Component({
   selector: 'app-pricing',
   imports: [RouterLink, TranslatePipe],
@@ -70,13 +74,18 @@ export class Pricing {
     this.checkoutLoadingPlan.set(plan.id);
 
     this.http
-      .post(buildApiUrl('/pricing/checkout'), {
+      .post<CheckoutResponse>(buildApiUrl('/pricing/checkout'), {
         planId: plan.id,
         billingCycle: this.billingCycle(),
       })
       .subscribe({
-        next: () => {
-          this.checkoutLoadingPlan.set(null);
+        next: (res) => {
+          if (!res.url) {
+            this.checkoutMessage.set('Stripe checkout URL is missing from backend response.');
+            this.checkoutLoadingPlan.set(null);
+            return;
+          }
+          window.location.assign(res.url);
         },
         error: (err: HttpErrorResponse) => {
           const apiMessage = (err.error?.message as string) || '';
