@@ -63,6 +63,24 @@
 
     <section class="card bg-base-200 shadow-xl">
       <div class="card-body max-w-xl">
+        <h2 class="card-title text-xl">{{ 'profile.billing.title' | t }}</h2>
+        <p class="text-base-content/70">{{ 'profile.billing.subtitle' | t }}</p>
+
+        @if (portalError()) {
+          <div class="alert alert-error text-sm">{{ portalError() | t }}</div>
+        }
+
+        <button class="btn btn-secondary" type="button" (click)="openBillingPortal()">
+          @if (portalLoading()) {
+            <span class="loading loading-spinner loading-sm"></span>
+          }
+          {{ 'profile.billing.manage' | t }}
+        </button>
+      </div>
+    </section>
+
+    <section class="card bg-base-200 shadow-xl">
+      <div class="card-body max-w-xl">
         <h2 class="card-title text-xl">{{ 'profile.password.title' | t }}</h2>
 
         @if (passwordError()) {

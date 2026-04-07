@@ -36,6 +36,10 @@ interface CreditsResponse {
   windows: CreditWindow[];
 }
 
+interface PortalResponse {
+  url: string;
+}
+
 @Component({
   selector: 'app-profile',
   imports: [ReactiveFormsModule, DatePipe, TranslatePipe],
@@ -59,6 +63,8 @@ export class Profile {
   savingPassword = signal(false);
   passwordError = signal('');
   passwordSuccess = signal('');
+  portalLoading = signal(false);
+  portalError = signal('');
 
   constructor() {
     this.loadData();
@@ -98,6 +104,27 @@ export class Profile {
           this.savingPassword.set(false);
         },
       });
+  }
+
+  openBillingPortal() {
+    if (this.portalLoading()) return;
+    this.portalError.set('');
+    this.portalLoading.set(true);
+
+    this.http.post<PortalResponse>(buildApiUrl('/pricing/portal'), {}).subscribe({
+      next: (res) => {
+        if (!res.url) {
+          this.portalError.set('profile.billing.portalFailed');
+          this.portalLoading.set(false);
+          return;
+        }
+        window.location.assign(res.url);
+      },
+      error: (err) => {
+        this.portalError.set(err.error?.message || 'profile.billing.portalFailed');
+        this.portalLoading.set(false);
+      },
+    });
   }
 
   private loadData() {
