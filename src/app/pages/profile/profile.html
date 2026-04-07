@@ -1,0 +1,127 @@
+<div class="p-4 md:p-8">
+  <div class="mx-auto max-w-4xl flex flex-col gap-6">
+    <section class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h1 class="card-title text-2xl">{{ 'profile.title' | t }}</h1>
+        <p class="text-base-content/70">{{ 'profile.subtitle' | t }}</p>
+
+        @if (loading()) {
+          <span class="loading loading-spinner loading-md"></span>
+        } @else {
+          <div class="grid gap-4 md:grid-cols-3">
+            <div class="rounded-xl border border-base-300 p-4">
+              <p class="text-xs uppercase text-base-content/60">{{ 'profile.email' | t }}</p>
+              <p class="font-medium break-all">{{ me()?.email }}</p>
+            </div>
+            <div class="rounded-xl border border-base-300 p-4">
+              <p class="text-xs uppercase text-base-content/60">{{ 'profile.plan' | t }}</p>
+              <p class="font-medium">{{ tierLabelKey() | t }}</p>
+            </div>
+            <div class="rounded-xl border border-base-300 p-4">
+              <p class="text-xs uppercase text-base-content/60">{{ 'profile.memberSince' | t }}</p>
+              <p class="font-medium">{{ me()?.createdAt | date: 'mediumDate' }}</p>
+            </div>
+          </div>
+
+          @if (subscription()) {
+            <div
+              class="mt-4 rounded-xl border border-base-300 p-4 flex flex-wrap items-center gap-3"
+            >
+              <span class="badge badge-outline"
+                >{{ 'profile.status' | t }}: {{ subscription()!.status }}</span
+              >
+              <span class="badge badge-outline"
+                >{{ 'profile.billingCycle' | t }}:
+                {{ 'pricing.billing.' + subscription()!.billingCycle | t }}</span
+              >
+              @if (subscription()!.cancelAtPeriodEnd) {
+                <span class="badge badge-warning">{{ 'profile.cancelAtPeriodEnd' | t }}</span>
+              }
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <section class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title text-xl">{{ 'profile.credits.title' | t }}</h2>
+        @if (credits()) {
+          <div class="grid gap-3 md:grid-cols-3">
+            @for (window of credits()!.windows; track window.key) {
+              <div class="rounded-xl border border-base-300 p-4">
+                <p class="text-xs uppercase text-base-content/60">
+                  {{ 'nav.credits.' + window.key | t }}
+                </p>
+                <p class="font-medium">{{ window.remaining }}/{{ window.limit }}</p>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </section>
+
+    <section class="card bg-base-200 shadow-xl">
+      <div class="card-body max-w-xl">
+        <h2 class="card-title text-xl">{{ 'profile.password.title' | t }}</h2>
+
+        @if (passwordError()) {
+          <div class="alert alert-error text-sm">{{ passwordError() | t }}</div>
+        }
+
+        @if (passwordSuccess()) {
+          <div class="alert alert-success text-sm">{{ passwordSuccess() | t }}</div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="onSubmitPassword()" class="flex flex-col gap-4">
+          <div>
+            <label class="label label-text" for="currentPassword">{{
+              'profile.password.current' | t
+            }}</label>
+            <input
+              id="currentPassword"
+              type="password"
+              formControlName="currentPassword"
+              class="input input-bordered w-full"
+            />
+          </div>
+
+          <div>
+            <label class="label label-text" for="newPassword">{{
+              'profile.password.new' | t
+            }}</label>
+            <input
+              id="newPassword"
+              type="password"
+              formControlName="newPassword"
+              class="input input-bordered w-full"
+            />
+          </div>
+
+          <div>
+            <label class="label label-text" for="confirmPassword">{{
+              'profile.password.confirm' | t
+            }}</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+              class="input input-bordered w-full"
+            />
+          </div>
+
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="savingPassword() || form.invalid"
+          >
+            @if (savingPassword()) {
+              <span class="loading loading-spinner loading-sm"></span>
+            }
+            {{ 'profile.password.submit' | t }}
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+</div>

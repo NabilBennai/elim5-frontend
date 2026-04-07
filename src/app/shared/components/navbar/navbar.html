@@ -52,6 +52,12 @@
       <span class="icon-[tabler--credit-card] size-5"></span>
       <span class="sidebar-label">{{ 'nav.pricing' | t }}</span>
     </a>
+    @if (auth.isLoggedIn()) {
+      <a routerLink="/profile" (click)="closeSidebar()" [attr.title]="'nav.profile' | t">
+        <span class="icon-[tabler--user-circle] size-5"></span>
+        <span class="sidebar-label">{{ 'nav.profile' | t }}</span>
+      </a>
+    }
     @if (!auth.isLoggedIn()) {
       <a routerLink="/login" (click)="closeSidebar()" [attr.title]="'nav.login' | t">
         <span class="icon-[tabler--login] size-5"></span>
